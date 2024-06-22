@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
 execs() {
+    local RESET="\033[0m"
+    local WARN="\033[37;41;1m"
+    local BOLD="\033[1m"
+
     # Extract user command and arguments
     local user_cmd="$@"
     local user_program="$1"
@@ -30,11 +34,11 @@ execs() {
 
         # If so, warn the user
         if [[ "$user_program" == "$program" ]] && [[ "$user_cmd" == "$cmd"* ]]; then
-            echo -e "execs: Warning, the following command is flagged as dangerous by \"$cmd\"\n"
+            echo -e "execs: ${WARN}WARNING${RESET} ${BOLD}This command could be dangerous.${RESET}\n"
             read -p "Execute anyways? [Y/n] " answer
 
             if [[ "$answer" == [Nn]* ]]; then
-                echo "execs: Aborting."
+                echo "Aborting."
                 return 1
             else
                 break
